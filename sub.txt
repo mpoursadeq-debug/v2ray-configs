@@ -7,3 +7,358 @@ vless://0ac0a6f0-d3f0-47f1-8de4-ce785e515a5c@91.193.58.77:443?path=%2Fca-cl&secu
 trojan://humanity@141.193.213.21:443?path=%2Fassignment&security=tls&alpn=http%2F1.1&insecure=0&host=www.calmloud.com&type=ws&allowInsecure=0&sni=www.calmloud.com#%40appsooner%20%DA%A9%D8%A7%D9%86%D8%A7%D9%84%20%D8%AA%D9%84%DA%AF%D8%B1%D8%A7%D9%85%20%F0%9F%95%8A%EF%B8%8F
 ss://Y2hhY2hhMjAtaWV0Zi1wb2x5MTMwNTpvWklvQTY5UTh5aGNRVjhrYTNQYTNB@82.38.31.35:8080#%5B%F0%9F%87%B3%F0%9F%87%B1%5D%20Fast%20%E2%99%A8%EF%B8%8F%20%7C%20t.me%2Fv2mystery
 trojan://humanity@89.116.46.68:443?path=%2Fassignment&security=tls&insecure=0&host=www.calmloud.com&type=ws&allowInsecure=0&sni=www.calmloud.com#%40npvv2rayn
+{
+
+"remarks": "💦 8 - Trojan - IPv4 : 8080",
+
+"version": {
+
+"min": "25.10.15"
+
+},
+
+"log": {
+
+"loglevel": "warning"
+
+},
+
+"dns": {
+
+"servers": [
+
+{
+
+"address": "https://8.8.8.8/dns-query",
+
+"tag": "remote-dns"
+
+}
+
+],
+
+"queryStrategy": "UseIP",
+
+"tag": "dns"
+
+},
+
+"inbounds": [
+
+{
+
+"listen": "127.0.0.1",
+
+"port": 10808,
+
+"protocol": "socks",
+
+"settings": {
+
+"auth": "noauth",
+
+"udp": true
+
+},
+
+"sniffing": {
+
+"destOverride": [
+
+"http",
+
+"tls"
+
+],
+
+"enabled": true,
+
+"routeOnly": true
+
+},
+
+"tag": "mixed-in"
+
+},
+
+{
+
+"listen": "127.0.0.1",
+
+"port": 10853,
+
+"protocol": "dokodemo-door",
+
+"settings": {
+
+"address": "1.1.1.1",
+
+"network": "tcp,udp",
+
+"port": 53
+
+},
+
+"tag": "dns-in"
+
+}
+
+],
+
+"outbounds": [
+
+{
+
+"protocol": "trojan",
+
+"settings": {
+
+"servers": [
+
+{
+
+"address": "104.21.6.150",
+
+"port": 8080,
+
+"password": "Xn:gXW5BRmm!"
+
+}
+
+]
+
+},
+
+"streamSettings": {
+
+"network": "ws",
+
+"wsSettings": {
+
+"host": "fuogazsrt2syz0k1vqe5yb436080hgzw.darodiali99.workers.dev",
+
+"path": "/eyJqdW5rIjoiZ1pCVUxCcEMiLCJwcm90b2NvbCI6InRyIiwibW9kZSI6InByb3h5aXAiLCJwYW5lbElQcyI6WyIxNjIuMTkuMjQ3LjI0NSJdfQ==?ed=2560"
+
+},
+
+"security": "none",
+
+"sockopt": {
+
+"domainStrategy": "UseIP",
+
+"happyEyeballs": {
+
+"tryDelayMs": 250,
+
+"prioritizeIPv6": false,
+
+"interleave": 2,
+
+"maxConcurrentTry": 4
+
+}
+
+}
+
+},
+
+"tag": "proxy"
+
+},
+
+{
+
+"protocol": "dns",
+
+"settings": {
+
+"nonIPQuery": "reject"
+
+},
+
+"tag": "dns-out"
+
+},
+
+{
+
+"protocol": "freedom",
+
+"settings": {
+
+"domainStrategy": "UseIP"
+
+},
+
+"tag": "direct"
+
+},
+
+{
+
+"protocol": "blackhole",
+
+"settings": {
+
+"response": {
+
+"type": "http"
+
+}
+
+},
+
+"tag": "block"
+
+}
+
+],
+
+"routing": {
+
+"domainStrategy": "IPIfNonMatch",
+
+"rules": [
+
+{
+
+"inboundTag": [
+
+"mixed-in"
+
+],
+
+"port": 53,
+
+"outboundTag": "dns-out",
+
+"type": "field"
+
+},
+
+{
+
+"inboundTag": [
+
+"dns-in"
+
+],
+
+"outboundTag": "dns-out",
+
+"type": "field"
+
+},
+
+{
+
+"inboundTag": [
+
+"remote-dns"
+
+],
+
+"outboundTag": "proxy",
+
+"type": "field"
+
+},
+
+{
+
+"inboundTag": [
+
+"dns"
+
+],
+
+"outboundTag": "direct",
+
+"type": "field"
+
+},
+
+{
+
+"domain": [
+
+"geosite:private"
+
+],
+
+"outboundTag": "direct",
+
+"type": "field"
+
+},
+
+{
+
+"ip": [
+
+"geoip:private"
+
+],
+
+"outboundTag": "direct",
+
+"type": "field"
+
+},
+
+{
+
+"network": "udp",
+
+"outboundTag": "block",
+
+"type": "field"
+
+},
+
+{
+
+"network": "tcp",
+
+"outboundTag": "proxy",
+
+"type": "field"
+
+}
+
+]
+
+},
+
+"policy": {
+
+"levels": {
+
+"0": {
+
+"connIdle": 300,
+
+"handshake": 4,
+
+"uplinkOnly": 1,
+
+"downlinkOnly": 1
+
+}
+
+},
+
+"system": {
+
+"statsOutboundUplink": true,
+
+"statsOutboundDownlink": true
+
+}
+
+},
+
+"stats": {}
+
+}
